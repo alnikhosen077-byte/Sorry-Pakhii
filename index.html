@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>সরি ইলিন! 🥺</title>
+    <title>সরি ইলিন পাখি! 🥺</title>
     <style>
         body {
             display: flex;
@@ -11,78 +11,125 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #ffe4e1;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            text-align: center;
+            background-color: #fce4ec; /* হালকা গোলাপি আভা */
+            font-family: 'Hind Siliguri', sans-serif;
+            overflow: hidden;
         }
         #container {
             background: white;
             padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            border: 5px solid #ff85a2;
         }
-        h1 { color: #ff4d6d; }
-        .buttons { margin-top: 20px; position: relative; height: 50px; }
+        img {
+            width: 150px;
+            margin-bottom: 15px;
+            border-radius: 15px;
+        }
+        h2 { color: #d81b60; font-size: 22px; line-height: 1.5; }
+        .buttons {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            height: 60px;
+        }
         button {
-            padding: 10px 25px;
-            font-size: 18px;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
-            border-radius: 10px;
+            border-radius: 50px;
             border: none;
-            transition: 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         #yesBtn { background-color: #ff4d6d; color: white; }
+        #yesBtn:hover { transform: scale(1.1); background-color: #ff758f; }
+        
         #noBtn {
-            background-color: #888;
+            background-color: #b0bec5;
             color: white;
-            position: absolute;
+            position: absolute; /* ডায়নামিক মুভমেন্টের জন্য */
         }
         .hidden { display: none; }
+        .love-text {
+            color: #ff4d6d;
+            font-size: 18px;
+            line-height: 1.6;
+        }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div id="container">
-        <div id="main-content">
-            <h1 id="header-text">ইলিন, লক্ষ্মীটি, আর রাগ করে থেকো না! 🥺</h1>
-            <p>আমি কি মাফ পেতে পারি? 👉👈</p>
+        <div id="ask-section">
+            <img id="status-img" src="https://media.tenor.com/0p_r64R299EAAAAi/bubu-dudu-bubu.gif" alt="Sad Bubu">
+            <h2 id="question">পাখি আমি কিছু করে থাকলে প্লীজ মাফ করে দেও 🥺</h2>
             <div class="buttons">
-                <button id="yesBtn">হ্যাঁ, মাফ করলাম ❤️</button>
-                <button id="noBtn">উঁহু, কখনোই না! 😤</button>
+                <button id="yesBtn">হ্যাঁ দিলাম ❤️</button>
+                <button id="noBtn">না করবো না 😤</button>
             </div>
         </div>
 
-        <div id="success-message" class="hidden">
-            <h1>ইয়েইইই! ❤️ আই লাভ ইউ ইলিন! 🐥</h1>
-            <p>তুমি পৃথিবীর সেরা পাখি! চলো এখন ঝগড়া ভুলে মিষ্টি খাই।</p>
-            <div style="font-size: 50px;">🎂🍦🍭</div>
+        <div id="success-section" class="hidden">
+            <img src="https://media.tenor.com/X_S8G3uV99YAAAAi/bubu-dudu-bubu.gif" alt="Happy Dudu">
+            <h2 style="color: #ff4d6d;">অনেক ভালোবাসা তোমার জন্য পাখি 🥺💖</h2>
+            <p class="love-text">
+                সব সময় এভাবে আগলে রাখিস। কিছু করলে আমাকে নিজের মতো করে বলবি, মানিয়ে নিবি—আমিই তো তোর পাখি! 🐣
+            </p>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
     <script>
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
-        const mainContent = document.getElementById('main-content');
-        const successMessage = document.getElementById('success-message');
+        const askSection = document.getElementById('ask-section');
+        const successSection = document.getElementById('success-section');
 
-        // 'No' বাটনটি মাউস নিলেই সরে যাবে
-        noBtn.addEventListener('mouseover', () => {
+        // 'না' বাটনটি মাউস নিলেই (বা টাচ করলে) এদিক সেদিক দৌড়াবে
+        const moveButton = () => {
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            noBtn.style.left = `${x}px`;
-            noBtn.style.top = `${y}px`;
-        });
+            
+            // স্ক্রিনের সীমানার ভেতরে রাখার জন্য সামান্য ক্যালকুলেশন
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${Math.max(10, Math.min(x, window.innerWidth - 100))}px`;
+            noBtn.style.top = `${Math.max(10, Math.min(y, window.innerHeight - 50))}px`;
+        };
 
-        // 'Yes' বাটনে ক্লিক করলে কনফেটি হবে
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('touchstart', moveButton); // মোবাইলের জন্য
+
+        // 'হ্যাঁ' বাটনে ক্লিক করলে
         yesBtn.addEventListener('click', () => {
-            mainContent.classList.add('hidden');
-            successMessage.classList.remove('hidden');
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
+            askSection.classList.add('hidden');
+            successSection.classList.remove('hidden');
+            
+            // হার্ট কনফেটি অ্যানিমেশন
+            var duration = 5 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) {
+              return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function() {
+              var timeLeft = animationEnd - Date.now();
+              if (timeLeft <= 0) return clearInterval(interval);
+              var particleCount = 50 * (timeLeft / duration);
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
         });
     </script>
 </body>
