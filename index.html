@@ -11,67 +11,55 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #fce4ec; /* হালকা গোলাপি আভা */
-            font-family: 'Hind Siliguri', sans-serif;
+            background-color: #fff0f3;
+            font-family: 'Arial', sans-serif;
             overflow: hidden;
         }
         #container {
             background: white;
-            padding: 30px;
-            border-radius: 25px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            max-width: 400px;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 350px;
             width: 90%;
             text-align: center;
-            border: 5px solid #ff85a2;
+            border: 3px solid #ffb3c1;
         }
-        img {
-            width: 150px;
+        .sticker-img {
+            width: 160px;
+            height: 160px;
+            object-fit: contain;
             margin-bottom: 15px;
-            border-radius: 15px;
         }
-        h2 { color: #d81b60; font-size: 22px; line-height: 1.5; }
+        h2 { color: #c9184a; font-size: 20px; margin-bottom: 20px; }
         .buttons {
-            margin-top: 30px;
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
+            height: 50px;
             position: relative;
-            height: 60px;
         }
         button {
-            padding: 12px 25px;
+            padding: 10px 20px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            border-radius: 50px;
+            border-radius: 12px;
             border: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: 0.2s;
         }
         #yesBtn { background-color: #ff4d6d; color: white; }
-        #yesBtn:hover { transform: scale(1.1); background-color: #ff758f; }
-        
-        #noBtn {
-            background-color: #b0bec5;
-            color: white;
-            position: absolute; /* ডায়নামিক মুভমেন্টের জন্য */
-        }
+        #noBtn { background-color: #80ed99; color: #2d6a4f; position: absolute; }
         .hidden { display: none; }
-        .love-text {
-            color: #ff4d6d;
-            font-size: 18px;
-            line-height: 1.6;
-        }
+        .love-msg { color: #ff4d6d; font-size: 17px; line-height: 1.5; font-weight: bold; }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div id="container">
         <div id="ask-section">
-            <img id="status-img" src="https://media.tenor.com/0p_r64R299EAAAAi/bubu-dudu-bubu.gif" alt="Sad Bubu">
-            <h2 id="question">পাখি আমি কিছু করে থাকলে প্লীজ মাফ করে দেও 🥺</h2>
+            <img class="sticker-img" src="https://media.tenor.com/2p_t9A6_L_UAAAAi/bubu-dudu-bubu.gif" alt="Sad Sticker">
+            <h2>পাখি আমি কিছু করে থাকলে প্লীজ মাফ করে দেও 🥺</h2>
             <div class="buttons">
                 <button id="yesBtn">হ্যাঁ দিলাম ❤️</button>
                 <button id="noBtn">না করবো না 😤</button>
@@ -79,57 +67,68 @@
         </div>
 
         <div id="success-section" class="hidden">
-            <img src="https://media.tenor.com/X_S8G3uV99YAAAAi/bubu-dudu-bubu.gif" alt="Happy Dudu">
-            <h2 style="color: #ff4d6d;">অনেক ভালোবাসা তোমার জন্য পাখি 🥺💖</h2>
-            <p class="love-text">
+            <img class="sticker-img" src="https://media.tenor.com/X_S8G3uV99YAAAAi/bubu-dudu-bubu.gif" alt="Love Sticker">
+            <p class="love-msg">
+                অনেক ভালোবাসা তোমার জন্য পাখি 🥺💖<br><br>
                 সব সময় এভাবে আগলে রাখিস। কিছু করলে আমাকে নিজের মতো করে বলবি, মানিয়ে নিবি—আমিই তো তোর পাখি! 🐣
             </p>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-
     <script>
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
         const askSection = document.getElementById('ask-section');
         const successSection = document.getElementById('success-section');
 
-        // 'না' বাটনটি মাউস নিলেই (বা টাচ করলে) এদিক সেদিক দৌড়াবে
+        // 'না' বাটন সরানোর ফাংশন
         const moveButton = () => {
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
             
-            // স্ক্রিনের সীমানার ভেতরে রাখার জন্য সামান্য ক্যালকুলেশন
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
             noBtn.style.position = 'fixed';
-            noBtn.style.left = `${Math.max(10, Math.min(x, window.innerWidth - 100))}px`;
-            noBtn.style.top = `${Math.max(10, Math.min(y, window.innerHeight - 50))}px`;
         };
 
         noBtn.addEventListener('mouseover', moveButton);
-        noBtn.addEventListener('touchstart', moveButton); // মোবাইলের জন্য
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
 
-        // 'হ্যাঁ' বাটনে ক্লিক করলে
+        // 'হ্যাঁ' বাটনে ক্লিক
         yesBtn.addEventListener('click', () => {
             askSection.classList.add('hidden');
             successSection.classList.remove('hidden');
             
-            // হার্ট কনফেটি অ্যানিমেশন
-            var duration = 5 * 1000;
-            var animationEnd = Date.now() + duration;
-            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+            // কনফেটি হার্ট ইফেক্ট
+            const end = Date.now() + (3 * 1000);
+            const colors = ['#ff4d6d', '#ffb3c1', '#ff758f'];
 
-            function randomInRange(min, max) {
-              return Math.random() * (max - min) + min;
-            }
+            (function frame() {
+              confetti({
+                particleCount: 3,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 },
+                colors: colors
+              });
+              confetti({
+                particleCount: 3,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 },
+                colors: colors
+              });
 
-            var interval = setInterval(function() {
-              var timeLeft = animationEnd - Date.now();
-              if (timeLeft <= 0) return clearInterval(interval);
-              var particleCount = 50 * (timeLeft / duration);
-              confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-              confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-            }, 250);
+              if (Date.now() < end) {
+                requestAnimationFrame(frame);
+              }
+            }());
         });
     </script>
 </body>
