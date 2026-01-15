@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>সরি ইলিন পাখি! 🥺</title>
+    <title> Sorryy পাখি! 🥺</title>
     <style>
         body {
             display: flex;
@@ -14,51 +14,58 @@
             background-color: #fff0f3;
             font-family: 'Arial', sans-serif;
             overflow: hidden;
+            touch-action: manipulation;
         }
         #container {
             background: white;
-            padding: 25px;
-            border-radius: 20px;
+            padding: 30px;
+            border-radius: 25px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             max-width: 350px;
-            width: 90%;
+            width: 85%;
             text-align: center;
-            border: 3px solid #ffb3c1;
+            border: 4px solid #ffb3c1;
+            z-index: 10;
         }
-        .sticker-img {
-            width: 160px;
-            height: 160px;
-            object-fit: contain;
-            margin-bottom: 15px;
+        .sticker-placeholder {
+            font-size: 80px;
+            margin-bottom: 20px;
+            display: block;
         }
-        h2 { color: #c9184a; font-size: 20px; margin-bottom: 20px; }
+        h2 { color: #c9184a; font-size: 20px; line-height: 1.4; margin-bottom: 25px; }
         .buttons {
             display: flex;
             justify-content: center;
             gap: 15px;
-            height: 50px;
+            height: 60px;
             position: relative;
         }
         button {
-            padding: 10px 20px;
+            padding: 12px 20px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            border-radius: 12px;
+            border-radius: 15px;
             border: none;
             transition: 0.2s;
+            z-index: 20;
         }
-        #yesBtn { background-color: #ff4d6d; color: white; }
-        #noBtn { background-color: #80ed99; color: #2d6a4f; position: absolute; }
+        #yesBtn { background-color: #ff4d6d; color: white; min-width: 120px; }
+        #noBtn { 
+            background-color: #80ed99; 
+            color: #2d6a4f; 
+            position: absolute; 
+            white-space: nowrap;
+        }
         .hidden { display: none; }
-        .love-msg { color: #ff4d6d; font-size: 17px; line-height: 1.5; font-weight: bold; }
+        .love-msg { color: #ff4d6d; font-size: 18px; line-height: 1.6; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div id="container">
         <div id="ask-section">
-            <img class="sticker-img" src="https://media.tenor.com/2p_t9A6_L_UAAAAi/bubu-dudu-bubu.gif" alt="Sad Sticker">
+            <div class="sticker-placeholder">🥺🩹</div>
             <h2>পাখি আমি কিছু করে থাকলে প্লীজ মাফ করে দেও 🥺</h2>
             <div class="buttons">
                 <button id="yesBtn">হ্যাঁ দিলাম ❤️</button>
@@ -67,10 +74,11 @@
         </div>
 
         <div id="success-section" class="hidden">
-            <img class="sticker-img" src="https://media.tenor.com/X_S8G3uV99YAAAAi/bubu-dudu-bubu.gif" alt="Love Sticker">
+            <div class="sticker-placeholder">💖🐣💖</div>
             <p class="love-msg">
                 অনেক ভালোবাসা তোমার জন্য পাখি 🥺💖<br><br>
-                সব সময় এভাবে আগলে রাখিস। কিছু করলে আমাকে নিজের মতো করে বলবি, মানিয়ে নিবি—আমিই তো তোর পাখি! 🐣
+                সব সময় এভাবে আগলে রাখিস।প্লীজ আমার উপর রাগ করে থাকিস না 🥺🙏🏻
+                ,কিছু করলে আমাকে নিজের মতো করে বলবি, মানিয়ে নিবি—আমিই তো তোর পাখি! 🐣
             </p>
         </div>
     </div>
@@ -82,52 +90,36 @@
         const askSection = document.getElementById('ask-section');
         const successSection = document.getElementById('success-section');
 
-        // 'না' বাটন সরানোর ফাংশন
         const moveButton = () => {
-            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
-            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
-            const x = Math.random() * maxX;
-            const y = Math.random() * maxY;
+            // বাটন যেন স্ক্রিনের ভেতরেই থাকে
+            const padding = 50;
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
             
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
+            const randomX = Math.max(padding, Math.random() * maxX);
+            const randomY = Math.max(padding, Math.random() * maxY);
+            
             noBtn.style.position = 'fixed';
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
         };
 
         noBtn.addEventListener('mouseover', moveButton);
         noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault();
+            e.preventDefault(); // মোবাইল স্ক্রল বন্ধ করবে
             moveButton();
         });
 
-        // 'হ্যাঁ' বাটনে ক্লিক
         yesBtn.addEventListener('click', () => {
             askSection.classList.add('hidden');
             successSection.classList.remove('hidden');
             
-            // কনফেটি হার্ট ইফেক্ট
-            const end = Date.now() + (3 * 1000);
-            const colors = ['#ff4d6d', '#ffb3c1', '#ff758f'];
-
+            // কনফেটি সেলিব্রেশন
+            const end = Date.now() + (4 * 1000);
             (function frame() {
-              confetti({
-                particleCount: 3,
-                angle: 60,
-                spread: 55,
-                origin: { x: 0 },
-                colors: colors
-              });
-              confetti({
-                particleCount: 3,
-                angle: 120,
-                spread: 55,
-                origin: { x: 1 },
-                colors: colors
-              });
-
-              if (Date.now() < end) {
-                requestAnimationFrame(frame);
-              }
+              confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff4d6d', '#ffb3c1'] });
+              confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff4d6d', '#ffb3c1'] });
+              if (Date.now() < end) requestAnimationFrame(frame);
             }());
         });
     </script>
